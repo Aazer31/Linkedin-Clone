@@ -43,8 +43,7 @@ const userSchema = new mongoose.Schema(
         degree: {type: string},
         fieldOfStudy: {type: string},
       }
-      ],
-
+    ],
     location: {
         type: string
     },
@@ -58,13 +57,13 @@ const userSchema = new mongoose.Schema(
             company: {type: String},
             description: {type: String},     
         }
-     ],
-        connections: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            }
-        ]
+    ],
+    connections: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }
+    ]
   },{ timestamps: true }
 );
 
