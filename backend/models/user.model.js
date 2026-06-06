@@ -39,13 +39,13 @@ const userSchema = new mongoose.Schema(
     skills:[ {type: String} ],
     education: [
       {
-        college: {type: string},
-        degree: {type: string},
-        fieldOfStudy: {type: string},
+        college: {type: String},
+        degree: {type: String},
+        fieldOfStudy: {type: String},
       }
     ],
     location: {
-        type: string
+        type: String
     },
     gender: {
         type: String,
