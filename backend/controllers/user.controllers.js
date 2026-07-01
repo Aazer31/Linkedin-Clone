@@ -3,7 +3,7 @@ import User from "../models/user.model.js"
 export const getCurrentUser = async (req, res)=>{
     try{
         let id = req.userId
-        console.log(id)
+        // console.log(id)
         const user = await User.findById(id).select("-password")
         if(!user){
             return res.status(400).json({message: "user does not found"})
