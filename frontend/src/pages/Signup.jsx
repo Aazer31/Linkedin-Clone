@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { authDataContext } from '../context/AuthContext'
 import axios from "axios"
+import { userDataContext } from '../context/UserContext'
 
 function Signup() {
   let [show, setShow] = useState(false)
   let navigate=useNavigate()
   let {serverUrl} = useContext(authDataContext)
+  let {userData, setUserData} = useContext(userDataContext)
   let [firstname, setFirstname] = useState("")
   let [lastname, setLastname] = useState("")
   let [username, setUsername] = useState("")
@@ -30,6 +32,8 @@ function Signup() {
         password
       }, {withCredentials:true})
       console.log(result)
+      setUserData(result.data)
+      navigate("/")
       setErr(false)
       setLoading(false)
       setFirstname("")

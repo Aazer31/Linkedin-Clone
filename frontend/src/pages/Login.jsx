@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { authDataContext } from '../context/AuthContext'
 import axios from "axios"
+import { userDataContext } from '../context/UserContext'
 
 
 function Login() {
   let [show, setShow] = useState(false)
   let navigate=useNavigate()
   let {serverUrl} = useContext(authDataContext)
+  let {userData, setUserData} = useContext(userDataContext)
   let [email, setEmail] = useState("")
   let [password, setPassword] = useState("")
   let [loading, setLoading] = useState(false)
@@ -24,7 +26,8 @@ function Login() {
         email,
         password
       }, {withCredentials:true})
-      console.log(result)
+      setUserData(result.data)
+      navigate("/")
       setErr(false)
       setLoading(false)
       setEmail("")
