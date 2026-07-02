@@ -36,36 +36,37 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    skills:[ {type: String} ],
+    skills: [{ type: String }],
     education: [
       {
-        college: {type: String},
-        degree: {type: String},
-        fieldOfStudy: {type: String},
-      }
+        college: { type: String },
+        degree: { type: String },
+        fieldOfStudy: { type: String },
+      },
     ],
     location: {
-        type: String,
-        default: "Côte d'Ivoire",
+      type: String,
+      default: "Côte d'Ivoire",
     },
     gender: {
-        type: String,
-        enum: ["Male", "Female", "Other"],
+      type: String,
+      enum: ["Male", "Female", "Other"],
     },
     experience: [
-        {
-            title: {type: String},
-            company: {type: String},
-            description: {type: String},     
-        }
+      {
+        title: { type: String },
+        company: { type: String },
+        description: { type: String },
+      },
     ],
     connections: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        }
-    ]
-  },{ timestamps: true }
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
+  { timestamps: true },
 );
 
 const User = mongoose.model("User", userSchema);
