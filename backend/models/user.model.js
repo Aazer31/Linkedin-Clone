@@ -45,7 +45,8 @@ const userSchema = new mongoose.Schema(
       }
     ],
     location: {
-        type: String
+        type: String,
+        default: "Côte d'Ivoire",
     },
     gender: {
         type: String,

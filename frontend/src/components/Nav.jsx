@@ -54,7 +54,7 @@ function Nav() {
         flex flex-col items-center p-[20px] gap-[20px]'>
 
         <div className='w-[70px] h-[70px] rounded-full overflow-hidden'>
-          <img src={db} alt="" />
+          <img src={db} alt="" className='w-full h-full'/>
         </div>
 
         <div className='text-[18px] font-semibold text-gray-700'>
