@@ -5,6 +5,7 @@ import { userDataContext } from "../context/UserContext";
 import db from "../assets/dp.webp";
 import { FiPlus } from "react-icons/fi";
 import { FiCamera } from "react-icons/fi";
+import { useRef } from "react";
 
 function EditProfile() {
   let { edit, setEdit, userData, setUserData } = useContext(userDataContext);
@@ -88,8 +89,37 @@ function EditProfile() {
     }
   }
 
+  let [frontendProfileImage, setFrontendProfileImage] = useState(
+    userData.profileImage || db);
+  let [backendProfileImage, setBackendProfileImage] = useState(null);
+
+  let [frontendCoverImage, setFrontendCoverImage] = useState(
+    userData.coverImage || null);
+  let [backendCoverImage, setBackendCoverImage] = useState(null);
+
+  const profileImage = useRef(null);
+  const coverImage = useRef(null);
+
+  function handleProfileImage(e) {
+    let file = e.target.files[0];
+    if (file) {
+      setFrontendProfileImage(URL.createObjectURL(file));
+      setBackendProfileImage(file);
+    }
+  }
+
+  function handleCoverImage(e) {
+    let file = e.target.files[0];
+    if (file) {
+      setFrontendCoverImage(URL.createObjectURL(file));
+      setBackendCoverImage(file);
+    }
+  }
+
   return (
     <div className="w-full h-[100vh] fixed top-0 z-[100] flex items-center justify-center">
+      <input type="file" accept="image/*" hidden ref={profileImage} onChange={handleProfileImage}/>
+      <input type="file" accept="image/*" hidden ref={coverImage} onChange={handleCoverImage} />
       <div className="w-full h-full bg-black opacity-[0.5] absolute"></div>
       <div
         className="w-[90%] max-w-[500px] h-[600px] bg-white relative overflow-auto z-[200] 
@@ -101,13 +131,24 @@ function EditProfile() {
         >
           <RxCross1 className="w-[25px] h-[25px] text-gray-800 font-bold cursor-pointer" />
         </div>
-        <div className="w-full h-[150px] bg-gray-500 rounded-lg mt-[40px] overflow-hidden">
-          <img src="" alt="" className="w-full" />
+
+        <div
+          className="w-full h-[150px] bg-gray-500 rounded-lg mt-[40px] overflow-hidden cursor-pointer"
+          onClick={() => coverImage.current.click()}
+        >
+          <img src={frontendCoverImage} alt="" className="w-full" />
           <FiCamera className="absolute right-[20px] top-[60px] w-[25px] h-[25px] text-white cursor-pointer " />
         </div>
 
-        <div className="w-[80px] h-[80px] rounded-full overflow-hidden absolute top-[150px] ml-[20px]">
-          <img src={db} alt="" className="w-full h-full" />
+        <div
+          className="w-[80px] h-[80px] rounded-full overflow-hidden absolute top-[150px] ml-[20px] cursor-pointer"
+          onClick={() => profileImage.current.click()}
+        >
+          <img
+            src={frontendProfileImage}
+            alt=""
+            className="w-full h-full"
+          />
         </div>
 
         <div
@@ -287,7 +328,7 @@ function EditProfile() {
                   >
                     <div>
                       <div>Company: {exp.company}</div>
-                      <div>Position: {exp.position}</div>
+                      <div>Title: {exp.title}</div>
                       <div>Description: {exp.description}</div>
                     </div>
                     <RxCross1
@@ -349,11 +390,11 @@ function EditProfile() {
           </div>
 
           <button
-              className="w-[100%] h-[50px] rounded-full bg-[#0a66c2] mt-[40px]
+            className="w-[100%] h-[50px] rounded-full bg-[#0a66c2] mt-[40px]
          text-white "
-            >
-              Save Profile
-            </button>
+          >
+            Save Profile
+          </button>
         </div>
       </div>
     </div>
