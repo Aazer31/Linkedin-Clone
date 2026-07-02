@@ -6,9 +6,12 @@ import db from "../assets/dp.webp";
 import { FiPlus } from "react-icons/fi";
 import { FiCamera } from "react-icons/fi";
 import { useRef } from "react";
+import { authDataContext } from "../context/AuthContext";
+import axios from "axios";
 
 function EditProfile() {
   let { edit, setEdit, userData, setUserData } = useContext(userDataContext);
+  let { serverUrl } = useContext(authDataContext);
   let [firstname, setFirstname] = useState(userData.firstname || "");
   let [lastname, setLastname] = useState(userData.lastname || "");
   let [username, setUsername] = useState(userData.username || "");
@@ -90,13 +93,15 @@ function EditProfile() {
   }
 
   let [frontendProfileImage, setFrontendProfileImage] = useState(
-    userData.profileImage || db);
+    userData.profileImage || db,
+  );
   let [backendProfileImage, setBackendProfileImage] = useState(null);
 
   let [frontendCoverImage, setFrontendCoverImage] = useState(
-    userData.coverImage || null);
+    userData.coverImage || null,
+  );
   let [backendCoverImage, setBackendCoverImage] = useState(null);
-
+  let [saving, setSaving] = useState(false);
   const profileImage = useRef(null);
   const coverImage = useRef(null);
 
@@ -116,10 +121,57 @@ function EditProfile() {
     }
   }
 
+  const handleSaveProfile = async () => {
+    setSaving(true);
+    try {
+      let formdata = new FormData();
+      formdata.append("firstname", firstname);
+      formdata.append("lastname", lastname);
+      formdata.append("username", username);
+      formdata.append("headline", headline);
+      formdata.append("location", location);
+      formdata.append("gender", gender);
+      formdata.append("skills", JSON.stringify(skills));
+      formdata.append("education", JSON.stringify(education));
+      formdata.append("experience", JSON.stringify(experience));
+
+      if (backendProfileImage) {
+        formdata.append("profileImage", backendProfileImage);
+      }
+
+      if (backendCoverImage) {
+        formdata.append("coverImage", backendCoverImage);
+      }
+
+      let result = await axios.put(
+        serverUrl + "/api/user/updateprofile",
+        formdata,
+        { withCredentials: true },
+      );
+      setUserData(result.data);
+      setSaving(false);
+      setEdit(false);
+    } catch (error) {
+      console.log(error);
+      setSaving(false);
+    }
+  };
   return (
     <div className="w-full h-[100vh] fixed top-0 z-[100] flex items-center justify-center">
-      <input type="file" accept="image/*" hidden ref={profileImage} onChange={handleProfileImage}/>
-      <input type="file" accept="image/*" hidden ref={coverImage} onChange={handleCoverImage} />
+      <input
+        type="file"
+        accept="image/*"
+        hidden
+        ref={profileImage}
+        onChange={handleProfileImage}
+      />
+      <input
+        type="file"
+        accept="image/*"
+        hidden
+        ref={coverImage}
+        onChange={handleCoverImage}
+      />
       <div className="w-full h-full bg-black opacity-[0.5] absolute"></div>
       <div
         className="w-[90%] max-w-[500px] h-[600px] bg-white relative overflow-auto z-[200] 
@@ -144,11 +196,7 @@ function EditProfile() {
           className="w-[80px] h-[80px] rounded-full overflow-hidden absolute top-[150px] ml-[20px] cursor-pointer"
           onClick={() => profileImage.current.click()}
         >
-          <img
-            src={frontendProfileImage}
-            alt=""
-            className="w-full h-full"
-          />
+          <img src={frontendProfileImage} alt="" className="w-full h-full" />
         </div>
 
         <div
@@ -392,8 +440,10 @@ function EditProfile() {
           <button
             className="w-[100%] h-[50px] rounded-full bg-[#0a66c2] mt-[40px]
          text-white "
+            disabled={saving}
+            onClick={() => handleSaveProfile()}
           >
-            Save Profile
+            {saving ? "Saving..." : "Save Profile"}
           </button>
         </div>
       </div>

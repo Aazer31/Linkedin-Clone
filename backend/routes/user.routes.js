@@ -6,9 +6,9 @@ import upload from "../middlewares/multer.js"
 let userRouter = express.Router()
 
 userRouter.get("/currentuser", isAuth, getCurrentUser)
-userRouter.put("/updateProfile", isAuth, upload.fields([
-    {name: profileImage,maxCount:1},
-    {name: profileImage,maxCount:1}
+userRouter.put("/updateprofile", isAuth, upload.fields([
+    {name: "profileImage",maxCount:1},
+    {name: "coverImage",maxCount:1}
 ]), updateProfile)
 
 export default userRouter

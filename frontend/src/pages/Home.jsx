@@ -19,21 +19,21 @@ function Home() {
       <div className="w-full lg:w-[30%] min-h-[200px] bg-white shadow-lg rounded-lg p-[10px] relative cursor-pointer">
         <div className='w-[100%] h-[100px] bg-gray-400 rounded overflow-hidden flex
         items-center justify-center' onClick={() => setEdit(true)}>
-          <img src="" alt="" className='w-full'/>
+          <img src={userData.coverImage || null} alt="" className='w-full'/>
            <FiCamera className="absolute right-[20px] top-[20px] w-[25px] h-[25px] text-white cursor-pointer "/>
         </div>
-         <div className='w-[70px] h-[70px] rounded-full overflow-hidden items-center justify-center 
+         <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center 
          absolute top-[65px] left-[35px] cursor-pointer' onClick={() => setEdit(true)}>
-            <img src={db} alt="" className='h-full'/>
+            <img src={userData.profileImage || db} alt="" className='h-full'/>
           </div>
           <div className='w-[20px] h-[20px] bg-[#0a66c2] absolute top-[105px] z-30 left-[90px] 
           rounded-full flex items-center justify-center'>
             <FiPlus className='text-white'/>
           </div>
 
-          <div className='mt-[30px] pl-[20px] text-[19px] font-semibold text-gray-700'>
-            <div>{`${userData.firstname} ${userData.lastname}`}</div>
-            <div className="text-[19px] font-semibold text-gray-700">{userData.headline || ""}</div>
+          <div className='mt-[30px] pl-[20px] font-semibold text-gray-700'>
+            <div className="text-[22px]">{`${userData.firstname} ${userData.lastname}`}</div>
+            <div className="text-[18px] font-semibold text-gray-600">{userData.headline || ""}</div>
             <div className='text-[16px] text-gray-500'>{userData.location}</div>
           </div>
           <button className='w-[100%] h-[40px] my-[20px] rounded-full border-2

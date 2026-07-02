@@ -54,7 +54,7 @@ function Nav() {
         flex flex-col items-center p-[20px] gap-[20px]'>
 
         <div className='w-[70px] h-[70px] rounded-full overflow-hidden'>
-          <img src={db} alt="" className='w-full h-full'/>
+          <img src={userData.profileImage || db} alt="" className='w-full h-full'/>
         </div>
 
         <div className='text-[18px] font-semibold text-gray-700'>
@@ -89,7 +89,7 @@ function Nav() {
         <div className='w-[50px] h-[50px] rounded-full overflow-hidden cursor-pointer' onClick={()=>{
           setShowPopup(prev => !prev)
         }}>
-          <img src={db} alt="" />
+          <img src={userData.profileImage || db} alt="" />
         </div>
       </div>
     </div>
