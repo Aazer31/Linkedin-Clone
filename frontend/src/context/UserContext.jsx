@@ -6,7 +6,7 @@ export const userDataContext = createContext()
 function UserContext({children}) {
 let [userData, setUserData] = useState(null)
 let {serverUrl} = useContext(authDataContext)
-
+let [edit, setEdit] = useState(false);
 const getCurrentUser = async ()=>{
     try{
         let result = await axios.get(serverUrl+"/api/user/currentuser", 
@@ -24,7 +24,7 @@ useEffect(() => {
 }, []);
 
     const value = {
-        userData, setUserData
+        userData, setUserData, edit, setEdit    
     }
   return (
     <div>

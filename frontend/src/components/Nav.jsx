@@ -31,7 +31,7 @@ function Nav() {
 
 
   return (
-    <div className='w-full h-[80px] bg-white fixed top-0 shadow-lg flex justify-between md:justify-around items-center px-[5px]'>
+    <div className='w-full h-[80px] bg-white fixed top-0 shadow-lg flex justify-between md:justify-around items-center px-[10px] left-0 z-[80]'>
       <div className='flex justify-center items-center gap-[10px]'>
       <div onClick={()=>{
         setActiveSearch(false)
