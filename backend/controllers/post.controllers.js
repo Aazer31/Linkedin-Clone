@@ -10,16 +10,28 @@ export const createPost = async (req, res) => {
       newPost = await Post.create({
         author: req.userId,
         description,
-        image
+        image,
       });
     } else {
-        newPost = await Post.create({
-            author: req.userId,
-            description
+      newPost = await Post.create({
+        author: req.userId,
+        description,
       });
     }
-    return res.status(201).json(newPost)
+    return res.status(201).json(newPost);
   } catch (error) {
-        return res.status(201).json(`create post error ${error}`)
+    return res.status(201).json(`create post error ${error}`);
+  }
+};
+
+export const getPost = async (req, res) => {
+  try {
+    const post = await Post.find().populate(
+      "author",
+      "firstname lastname profileImage headline"
+    );
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(500).json({ message: "getPost error" });
   }
 };
