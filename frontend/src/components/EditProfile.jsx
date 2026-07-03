@@ -172,7 +172,7 @@ function EditProfile() {
         ref={coverImage}
         onChange={handleCoverImage}
       />
-      <div className="w-full h-full bg-black opacity-[0.5] absolute"></div>
+      <div className="w-full h-full bg-black opacity-[0.5] absolute top-0 left-0"></div>
       <div
         className="w-[90%] max-w-[500px] h-[600px] bg-white relative overflow-auto z-[200] 
         shadow-lg rounded-lg p-[10px]"
