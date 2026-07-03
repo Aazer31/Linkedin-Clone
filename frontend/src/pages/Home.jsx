@@ -12,9 +12,11 @@ import { RxCross1 } from "react-icons/rx";
 import { BsImage } from "react-icons/bs";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios";
+import Post from "../components/Post";
 
 function Home() {
-  let { userData, setUserData, edit, setEdit } = useContext(userDataContext);
+  let { userData, setUserData, edit, setEdit, postData, setPostData } =
+    useContext(userDataContext);
   let { serverUrl } = useContext(authDataContext);
   let [frontendImage, setFrontendImage] = useState("");
   let [backendImage, setBackendImage] = useState("");
@@ -56,7 +58,7 @@ function Home() {
 
   return (
     <div
-      className="w-full min-h-[100vh] bg-[#f0efe7] pt-[100px] flex items-center lg:items-start 
+      className="w-full min-h-[100vh] bg-[#f0efe7] pt-[100px] pb-[40px] flex items-center lg:items-start 
     lg:justify-center gap-[20px] px-[20px] flex-col lg:flex-row relative"
     >
       {edit && <EditProfile />}
@@ -167,10 +169,7 @@ function Home() {
         </div>
       )}
 
-      <div
-        className="w-full lg:w-[50%] min-h-[200px] bg-[#f
-      0efe7]"
-      >
+      <div className="w-full lg:w-[50%] min-h-[200px] bg-[#f0efe7] flex flex-col gap-[20px]">
         <div className="w-full h-[120px] bg-white shadow-lg p-[20px] rounded-lg flex items-center justify-center gap-[10px] ">
           <div
             className="w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center 
@@ -186,8 +185,19 @@ function Home() {
             Start a post
           </button>
         </div>
+        {postData.map((post, index) => (
+          <Post
+            key={index}
+            id={post._id}
+            description={post.description}
+            author={post.author}
+            image={post.image}
+            like={post.like}
+            comment={post.comment}
+            createdAt={post.createdAt}
+          />
+        ))}
       </div>
-
       <div className="w-full lg:w-[25%] min-h-[200px] bg-white shadow-lg"></div>
     </div>
   );

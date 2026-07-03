@@ -26,10 +26,9 @@ export const createPost = async (req, res) => {
 
 export const getPost = async (req, res) => {
   try {
-    const post = await Post.find().populate(
-      "author",
-      "firstname lastname profileImage headline"
-    );
+    const post = await Post.find()
+      .populate("author", "firstname lastname profileImage headline")
+      .sort({ createdAt: -1 });
     return res.status(200).json(post);
   } catch (error) {
     return res.status(500).json({ message: "getPost error" });
