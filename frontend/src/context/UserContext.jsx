@@ -44,6 +44,7 @@ function UserContext({ children }) {
     setEdit,
     postData,
     setPostData,
+    getPost
   };
   return (
     <div>
