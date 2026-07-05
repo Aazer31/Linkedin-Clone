@@ -9,7 +9,9 @@ import { authDataContext } from "../context/AuthContext";
 import { userDataContext } from "../context/UserContext";
 import { BiSolidLike } from "react-icons/bi";
 import { LuSendHorizontal } from "react-icons/lu";
+import { io } from "socket.io-client"
 
+let socket = io("http://localhost:8000")
 function Post({ id, author, like, comment, description, image, createdAt }) {
   let [more, setMore] = useState(false);
   let { serverUrl } = useContext(authDataContext);
@@ -48,6 +50,25 @@ function Post({ id, author, like, comment, description, image, createdAt }) {
       console.log(error);
     }
   };
+
+  useEffect(()=>{
+    socket.on("likeUpdated",({postId, likes})=>{
+      if(postId == id){
+        setLikes(likes)
+      }
+    })
+
+    socket.on("commentAdded",({postId, comm})=>{
+      if(postId == id){
+        setComments(comm)
+      }
+    })
+
+    return()=>{
+      socket.off("likeUpdated")
+      socket.off("commentAdded")
+    }
+  },[id])
 
 
   return (
