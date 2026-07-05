@@ -1,0 +1,24 @@
+[33m63f4253[m[33m ([m[1;36mHEAD -> [m[1;32m23-connection-model[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31morigin/22-like-comment[m[33m, [m[1;32mmain[m[33m, [m[1;32m22-like-comment[m[33m)[m feat: add like and comment functionality
+[33me0d7b80[m[33m ([m[1;31morigin/21-post-component[m[33m, [m[1;32m21-post-component[m[33m)[m feat: create Post component
+[33mba350c8[m[33m ([m[1;31morigin/20-get-posts-api[m[33m, [m[1;32m20-get-posts-api[m[33m)[m feat: create get posts API
+[33m6cc811a[m[33m ([m[1;31morigin/19-create-post-frontend[m[33m, [m[1;32m19-create-post-frontend[m[33m)[m feat: create post frontend with image upload
+[33m9ea0844[m[33m ([m[1;31morigin/18-create-post-api[m[33m, [m[1;32m18-create-post-api[m[33m)[m feat: create post API with image upload
+[33mf779968[m[33m ([m[1;31morigin/17-post-model[m[33m, [m[1;32m17-post-model[m[33m)[m feat: create Post model
+[33md23b168[m[33m ([m[1;31morigin/16-update-profile-controller[m[33m, [m[1;32m16-update-profile-controller[m[33m)[m feat: create update profile controller
+[33m52c0f6b[m[33m ([m[1;31morigin/15-image-handling-frontend[m[33m, [m[1;32m15-image-handling-frontend[m[33m)[m feat: add image handling in frontend
+[33mb78c8ce[m[33m ([m[1;31morigin/14-update-profile-route[m[33m, [m[1;32m14-update-profile-route[m[33m)[m feat: create update profile route
+[33mafdbd5a[m[33m ([m[1;31morigin/13-edit-profile[m[33m, [m[1;32m13-edit-profile[m[33m)[m feat: create edit profile component
+[33m0779ca6[m[33m ([m[1;31morigin/12-update-home-page[m[33m, [m[1;32m12-update-home-page[m[33m)[m feat: update home page with user data
+[33m409f9e8[m[33m ([m[1;31morigin/11-image-handling-backend[m[33m, [m[1;32m11-image-handling-backend[m[33m)[m feat: setup image handling with Multer and Cloudinary
+[33md82d974[m[33m ([m[1;31morigin/10-home-and-nav[m[33m, [m[1;32m10-home-and-nav[m[33m)[m feat: create home page and nav component
+[33m168378e[m[33m ([m[1;31morigin/09-current-user-frontend[m[33m, [m[1;32m09-current-user-frontend[m[33m)[m feat: get current user data in frontend with userContext
+[33m7e3357b[m[33m ([m[1;31morigin/08-auth-middleware[m[33m, [m[1;32m08-auth-middleware[m[33m)[m feat: create authentication middleware
+[33m3a777af[m[33m ([m[1;31morigin/07-login-page[m[33m, [m[1;32m07-login-page[m[33m)[m feat: create login page
+[33meb3730d[m[33m ([m[1;31morigin/06-signup-page[m[33m, [m[1;32m06-signup-page[m[33m)[m feat: create signup page with auth context
+[33mab0eff8[m[33m ([m[1;31morigin/05-react-setup[m[33m, [m[1;32m05-react-setup[m[33m)[m setup react project with vite and tailwind
+[33m3ecdd10[m[33m ([m[1;31morigin/04-authentication[m[33m, [m[1;32m04-authentication[m[33m)[m feat: setup authentication with jwt and bcrypt
+[33medf9856[m fix: adjust User model
+[33m9bfb070[m[33m ([m[1;31morigin/03-user-model[m[33m, [m[1;32m03-user-model[m[33m)[m feat: create User model with mongoose schema
+[33mf2cf259[m[33m ([m[1;31morigin/02-connect-mongodb[m[33m, [m[1;32m02-connect-mongodb[m[33m)[m feat: connect MongoDB with mongoose
+[33mbf51a3c[m[33m ([m[1;31morigin/01-project-setup[m[33m, [m[1;32m01-project-setup[m[33m)[m feat:setup backend project structure with Express and dotenv
+[33m26839c1[m Initial commit
