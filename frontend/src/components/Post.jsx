@@ -10,6 +10,7 @@ import { userDataContext } from "../context/UserContext";
 import { BiSolidLike } from "react-icons/bi";
 import { LuSendHorizontal } from "react-icons/lu";
 import { io } from "socket.io-client"
+import ConnectionButton from "./ConnectionButton";
 
 let socket = io("http://localhost:8000")
 function Post({ id, author, like, comment, description, image, createdAt }) {
@@ -20,7 +21,7 @@ function Post({ id, author, like, comment, description, image, createdAt }) {
   let [commentContent, setCommentContent] = useState("");
   let[comments, setComments] = useState(comment || []);
   let [showComment, setShowComment] = useState(false) 
-
+  
   const handleLike = async () => {
     try {
       let result = await axios.get(serverUrl + `/api/post/like/${id}`, {
@@ -88,8 +89,7 @@ function Post({ id, author, like, comment, description, image, createdAt }) {
             <div className="text-[16px]">{moment(createdAt).fromNow()}</div>
           </div>
         </div>
-
-        <div>{/* Buttons */}</div>
+        {userData._id != author._id && <ConnectionButton userId={author._id}/> }
       </div>
       <div
         className={`w-full ${!more ? "max-h-[100px] overflow-hidden" : ""} pl-[50px]`}

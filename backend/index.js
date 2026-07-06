@@ -40,12 +40,13 @@ app.use("/api/connection", connectionRouter);
 
 export const userSocketMap = new Map()
 io.on("connection", (socket) => {
-  console.log("user connected", socket.id);
+  // console.log("user connected", socket.id);
   socket.on("register", (userId)=>{
     userSocketMap.set(userId, socket.id)
+    console.log(userSocketMap)
   })
-  socket.on("disconnect", (reason) => {
-    console.log("user disconnect", socket.id);
+  socket.on("disconnect", () => {
+    // console.log("user disconnect", socket.id);
   });
 });
 

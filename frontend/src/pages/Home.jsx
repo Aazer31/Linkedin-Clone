@@ -13,6 +13,7 @@ import { BsImage } from "react-icons/bs";
 import { authDataContext } from "../context/AuthContext";
 import axios from "axios";
 import Post from "../components/Post";
+import { useEffect } from "react";
 
 function Home() {
   let { userData, setUserData, edit, setEdit, postData, setPostData } =
@@ -44,6 +45,8 @@ function Home() {
       let result = await axios.post(serverUrl + "/api/post/create", formdata, {
         withCredentials: true,
       });
+
+      setPostData((prev) => [result.data, ...prev]);
       console.log(result);
       setUploadPost(false);
       setDescription("");
@@ -55,6 +58,22 @@ function Home() {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const result = await axios.get(serverUrl + "/api/post/getpost", {
+          withCredentials: true,
+        });
+
+        setPostData(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <div

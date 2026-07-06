@@ -29,7 +29,7 @@ function Login() {
         },
         { withCredentials: true },
       );
-      setUserData(result.data.user);
+      setUserData(result.data);
       navigate("/");
       setErr(false);
       setLoading(false);
