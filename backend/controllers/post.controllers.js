@@ -19,9 +19,11 @@ export const createPost = async (req, res) => {
         description,
       });
     }
+    newPost = await newPost.populate("author", "firstname lastname profileImage headline")
     return res.status(201).json(newPost);
   } catch (error) {
-    return res.status(201).json(`create post error ${error}`);
+    // return res.status(201).json(`create post error ${error}`);
+    return res.status(500).json({ message: `create post error ${error.message || error}` });
   }
 };
 

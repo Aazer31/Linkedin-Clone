@@ -6,16 +6,19 @@ export const sendConnection = async (req, res) => {
   try {
     let { id } = req.params;
     let sender = req.userId;
+
     let user = await User.findById(sender);
 
     if (sender == id) {
-      return res
-        .status(400)
-        .json({ message: "you can not send request yourself" });
+      return res.status(400).json({
+        message: "you can not send request yourself",
+      });
     }
 
     if (user.connections.includes(id)) {
-      return res.status(400).json({ message: "you are already connected" });
+      return res.status(400).json({
+        message: "you are already connected",
+      });
     }
 
     let existingConnection = await Connection.findOne({
@@ -25,7 +28,9 @@ export const sendConnection = async (req, res) => {
     });
 
     if (existingConnection) {
-      return res.status(400).json({ message: "request already exist" });
+      return res.status(400).json({
+        message: "request already exist",
+      });
     }
 
     let newRequest = await Connection.create({
@@ -58,34 +63,46 @@ export const sendConnection = async (req, res) => {
   }
 };
 
-
-export const acceptConnection = async(req, res)=>{
+export const acceptConnection = async (req, res) => {
   try {
-    let {connectionId} = req.params
-    let connection = await Connection.findById(connectionId)
+    let { connectionId } = req.params;
 
-    if(!connection){
-      return res.status(400).json({message:"connection does not exist"})
+    let connection = await Connection.findById(connectionId);
+
+    if (!connection) {
+      return res.status(400).json({
+        message: "connection does not exist",
+      });
     }
-    if(connection.status != "pending"){
-      return res.status(400).json({message:"request under process"})
+
+    if (connection.status !== "pending") {
+      return res.status(400).json({
+        message: "request already processed",
+      });
     }
-    connection.status = "accepted"
-    await connection.save()
+
+    connection.status = "accepted";
+    await connection.save();
+
     await User.findByIdAndUpdate(req.userId, {
-      $addToSet:{connection:connections.sender._id}
-    })
+      $addToSet: { connections: connection.sender },
+    });
 
-    await User.findByIdAndUpdate(connections.sender._id, {
-      $addToSet:{connection:req.userId}
-    })
+    await User.findByIdAndUpdate(connection.sender, {
+      $addToSet: { connections: req.userId },
+    });
 
-    let receiverSocketId = userSocketMap.get(connections.receiver._id.toString());
-    let senderSocketId = userSocketMap.get(connections.sender._id.toString());
+    let receiverSocketId = userSocketMap.get(
+      connection.receiver.toString()
+    );
+
+    let senderSocketId = userSocketMap.get(
+      connection.sender.toString()
+    );
 
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("statusUpdate", {
-        updateUserId: connections.sender._id,
+        updateUserId: connection.sender,
         newStatus: "disconnect",
       });
     }
@@ -97,32 +114,44 @@ export const acceptConnection = async(req, res)=>{
       });
     }
 
-    return res.status(200).json({message:"connection accepted"})
+    return res.status(200).json({
+      message: "connection accepted",
+    });
   } catch (error) {
-    return res.status(500).json({message:`connection accepted error ${error}`})
+    return res.status(500).json({
+      message: `connection accepted error ${error}`,
+    });
   }
-}
-
+};
 
 export const rejectConnection = async (req, res) => {
   try {
     let { connectionId } = req.params;
+
     let connection = await Connection.findById(connectionId);
 
     if (!connection) {
-      return res.status(400).json({ message: "connection does not exist" });
+      return res.status(400).json({
+        message: "connection does not exist",
+      });
     }
 
-    if (connections.status != "pending") {
-      return res.status(400).json({ message: "request under process" });
+    if (connection.status !== "pending") {
+      return res.status(400).json({
+        message: "request already processed",
+      });
     }
 
-    connections.status = "rejected";
+    connection.status = "rejected";
     await connection.save();
 
-    return res.status(200).json({ message: "connection rejected" });
+    return res.status(200).json({
+      message: "connection rejected",
+    });
   } catch (error) {
-    return res.status(500).json({ message: `connection rejected ${error}` });
+    return res.status(500).json({
+      message: `connection rejected ${error}`,
+    });
   }
 };
 
@@ -158,8 +187,9 @@ export const getConnectionStatus = async (req, res) => {
 
     return res.json({ status: "Connect" });
   } catch (error) {
-    return res.status(500).json({ message: "getConnectionStatus error" });
-    
+    return res.status(500).json({
+      message: "getConnectionStatus error",
+    });
   }
 };
 
@@ -168,8 +198,13 @@ export const removeConnection = async (req, res) => {
     const myId = req.userId;
     const otherUserId = req.params.userId;
 
-    await User.findByIdAndUpdate(myId, { $pull: { connection: otherUserId } });
-    await User.findByIdAndUpdate(otherUserId, { $pull: { connection: myId } });
+    await User.findByIdAndUpdate(myId, {
+      $pull: { connections: otherUserId },
+    });
+
+    await User.findByIdAndUpdate(otherUserId, {
+      $pull: { connections: myId },
+    });
 
     let receiverSocketId = userSocketMap.get(otherUserId);
     let senderSocketId = userSocketMap.get(myId);
@@ -188,10 +223,13 @@ export const removeConnection = async (req, res) => {
       });
     }
 
-
-    return res.json({ message: "Connection removed successfully" });
+    return res.json({
+      message: "Connection removed successfully",
+    });
   } catch (error) {
-    return res.status(500).json({ message: "removeConnection error" });
+    return res.status(500).json({
+      message: "removeConnection error",
+    });
   }
 };
 
@@ -204,11 +242,14 @@ export const getConnectionRequests = async (req, res) => {
       status: "pending",
     }).populate(
       "sender",
-      "firstname lastname email username profileImage headline",
+      "firstname lastname email username profileImage headline"
     );
+
     return res.status(200).json(requests);
   } catch (error) {
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
@@ -217,12 +258,15 @@ export const getUserConnections = async (req, res) => {
     const userId = req.userId;
 
     const user = await User.findById(userId).populate(
-      "connection",
-      "firstname lastname username profileImage headline connection",
+      "connections",
+      "firstname lastname username profileImage headline connections"
     );
-    return res.status(200).json(user.connection);
+
+    return res.status(200).json(user.connections);
   } catch (error) {
     console.error("Error in getUserConnections controller:", error);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
