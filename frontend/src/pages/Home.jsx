@@ -1,5 +1,4 @@
 // import React from 'react'
-
 import Nav from "../components/Nav";
 import db from "../assets/dp.webp";
 import { FiPlus } from "react-icons/fi";

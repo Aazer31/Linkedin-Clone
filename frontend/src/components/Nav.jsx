@@ -35,7 +35,8 @@ function Nav() {
       <div className="flex justify-center items-center gap-[10px]">
         <div
           onClick={() => {
-            setActiveSearch(false);
+            setActiveSearch(false)
+            navigate("/")
           }}
         >
           <img src={logo2} alt="" className="w-[50px]" />
@@ -84,7 +85,7 @@ function Nav() {
             </div>
             <button
               className="w-[100%] h-[40px] rounded-full border-2
-           border-[#2dc0ff] text-[#2dc0ff]"
+           border-[#2dc0ff] text-[#2dc0ff]" onClick={()=>navigate("/profile")}
             >
               View Profile
             </button>

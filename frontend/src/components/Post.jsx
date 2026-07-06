@@ -84,7 +84,7 @@ function Post({ id, author, like, comment, description, image, createdAt }) {
           </div>
 
           <div>
-            <div className="text-[22px] font-semibold">{`${author.firstname} ${author.lastname}`}</div>
+            <div className="text-[24px] font-bold">{`${author.firstname} ${author.lastname}`}</div>
             <div className="text-[16px]">{`${author.headline}`}</div>
             <div className="text-[16px]">{moment(createdAt).fromNow()}</div>
           </div>
