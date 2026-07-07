@@ -19,17 +19,11 @@ export const getCurrentUser = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    let {
-      firstname,
-      lastname,
-      username,
-      headline,
-      location,
-      gender
-    } = req.body;
-    let skills = req.body.skills?JSON.parse(req.body.skills):[]
-    let education = req.body.education?JSON.parse(req.body.education):[]
-    let experience = req.body.experience?JSON.parse(req.body.experience):[]
+    let { firstname, lastname, username, headline, location, gender } =
+      req.body;
+    let skills = req.body.skills ? JSON.parse(req.body.skills) : [];
+    let education = req.body.education ? JSON.parse(req.body.education) : [];
+    let experience = req.body.experience ? JSON.parse(req.body.experience) : [];
     let profileImage;
     let coverImage;
 
@@ -43,21 +37,42 @@ export const updateProfile = async (req, res) => {
       coverImage = await uploadOnCloudinary(req.files.coverImage[0].path);
     }
 
-    let user = await User.findByIdAndUpdate(req.userId, {
-      firstname,
-      lastname,
-      username,
-      headline,
-      location,
-      gender,
-      skills,
-      education,
-      experience,
-      profileImage,
-      coverImage,
-    },{new: true}).select("-password");
+    let user = await User.findByIdAndUpdate(
+      req.userId,
+      {
+        firstname,
+        lastname,
+        username,
+        headline,
+        location,
+        gender,
+        skills,
+        education,
+        experience,
+        profileImage,
+        coverImage,
+      },
+      { new: true },
+    ).select("-password");
     return res.status(200).json(user);
   } catch (error) {
-    return res.status(500).json({ message: `update profile error ${error}`});
+    console.log(error);
+    return res.status(500).json({ message: `update profile error ${error}` });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    let { username } = req.params;
+
+    let user = await User.findOne({ username }).select("-password");
+
+    if (!user) {
+      return res.status(400).json({ message: "Username does not exist" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: `get profile error ${error}` });
   }
 };

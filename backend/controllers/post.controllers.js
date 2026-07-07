@@ -30,7 +30,7 @@ export const createPost = async (req, res) => {
 export const getPost = async (req, res) => {
   try {
     const post = await Post.find()
-      .populate("author", "firstname lastname profileImage headline")
+      .populate("author", "firstname lastname profileImage headline username")
       .populate({
         path: "comment.user",
         select: "firstname lastname profileImage headline",
