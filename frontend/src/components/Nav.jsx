@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import logo2 from "../assets/logo2.png";
 import { IoSearchSharp } from "react-icons/io5";
@@ -16,6 +16,8 @@ function Nav() {
   let { userData, setUserData, handleGetProfile } = useContext(userDataContext);
   let { serverUrl } = useContext(authDataContext);
   let [showPopup, setShowPopup] = useState(false);
+  let [searchInput, setSearchInput] = useState("");
+  let [searchData, setSearchData] = useState([]);
   let navigate = useNavigate();
   const handleSignOut = async () => {
     try {
@@ -30,17 +32,36 @@ function Nav() {
     }
   };
 
+  const handleSearch = async () => {
+    try {
+      let result = await axios.get(
+        `${serverUrl}/api/user/search?query=${searchInput}`,
+        { withCredentials: true },
+      );
+      setSearchData(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (searchInput.trim() !== "") {
+      handleSearch();
+    } else {
+      setSearchData([]);
+    }
+  }, [searchInput]);
+
   return (
     <div className="w-full h-[80px] bg-white fixed top-0 shadow-lg flex justify-between md:justify-around items-center px-[10px] left-0 z-[80]">
       <div className="flex justify-center items-center gap-[10px]">
         <div
-        
           onClick={() => {
-            setActiveSearch(false)
-            navigate("/")
+            setActiveSearch(false);
+            navigate("/");
           }}
         >
-          <img src={logo2} alt="" className="w-[50px]" />
+          <img src={logo2} alt="" className="w-[50px] cursor-pointer" />
         </div>
         {!activeSearch && (
           <div>
@@ -49,6 +70,37 @@ function Nav() {
       lg:hidden"
               onClick={() => setActiveSearch(true)}
             />
+          </div>
+        )}
+        {searchData.length > 0 && (
+          <div
+            className="absolute top-[90px] min-h-[100px] left-[0px] lg:left-[20px] shadow-lg 
+        w-[100%] lg:w-[700px] bg-white flex flex-col gap-[20px] p-[20px]"
+          >
+            {searchData.map((sea) => (
+              <div
+                className="flex gap-[20px] items-center border-b-2 border-b-gray-300 
+              p-[10px] hover:bg-gray-200 cursor-pointer rounded-lg"
+                onClick={() => handleGetProfile(sea.username)}
+              >
+                <div className="w-[70px] h-[70px] rounded-full overflow-hidden">
+                  <img
+                    src={sea.profileImage || db}
+                    alt=""
+                    className="w-full h-full"
+                  />
+                </div>
+                <div>
+                  <div className="text-[18px] font-semibold text-gray-700">
+                    {`${sea.firstname} ${sea.lastname}`}
+                  </div>
+
+                  <div className="text-[15px] font-semibold text-gray-700">
+                    {`${sea.headline}`}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
@@ -63,6 +115,8 @@ function Nav() {
             type="text"
             className="w-[80%] h-full bg-transparent outline-none border-0"
             placeholder="search users..."
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
           />
         </form>
       </div>
@@ -86,12 +140,16 @@ function Nav() {
             </div>
             <button
               className="w-[100%] h-[40px] rounded-full border-2
-           border-[#2dc0ff] text-[#2dc0ff]" onClick={()=>handleGetProfile(userData.username)}
+           border-[#2dc0ff] text-[#2dc0ff]"
+              onClick={() => handleGetProfile(userData.username)}
             >
               View Profile
             </button>
             <div className="w-full h-[1px] bg-gray-700"></div>
-            <div className="flex w-full justify-start items-center text-gray-600 gap-[10px] cursor-pointer" onClick={()=>navigate("/network")}>
+            <div
+              className="flex w-full justify-start items-center text-gray-600 gap-[10px] cursor-pointer"
+              onClick={() => navigate("/network")}
+            >
               <FaUserGroup className="w-[23px] h-[23px] text-gray-600" />
               <div>My Networks</div>
             </div>

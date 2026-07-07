@@ -31,7 +31,7 @@ function Profile() {
     setProfilePost(
       postData.filter((post) => post.author._id == profileData._id),
     );
-  }, []);
+  }, [profileData]);
 
 
   return (
