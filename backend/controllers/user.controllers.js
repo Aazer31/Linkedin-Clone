@@ -98,3 +98,21 @@ export const search = async (req, res) => {
     return res.status(500).json({ message: `search error ${error}` });
   }
 };
+
+export const getSuggestedUser = async(req, res)=>{
+  try {
+    let currentUser = await User.findById(req.userId).select("connection")
+
+    let suggestedUsers = await User.find({
+      _id:{
+        $ne:currentUser,
+        $nin:currentUser.connections
+      }
+    }).select("-password")
+
+    return res.status(200).json(suggestedUsers)
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: `suggestedUser error ${error}` });
+  }
+}

@@ -15,7 +15,7 @@ import Post from "../components/Post";
 import { useEffect } from "react";
 
 function Home() {
-  let { userData, setUserData, edit, setEdit, postData, setPostData } =
+  let { userData, setUserData, edit, setEdit, postData, setPostData, handleGetProfile } =
     useContext(userDataContext);
   let { serverUrl } = useContext(authDataContext);
   let [frontendImage, setFrontendImage] = useState("");
@@ -24,6 +24,7 @@ function Home() {
   let image = useRef();
   let [uploadPost, setUploadPost] = useState(false);
   let [posting, setPosting] = useState(false);
+  let [suggestedUser, setSuggestedUser] = useState([]);
 
   function handleImage(e) {
     let file = e.target.files[0];
@@ -57,6 +58,22 @@ function Home() {
       console.log(error);
     }
   }
+
+  const handleSuggestedUsers = async () => {
+    try {
+      let result = await axios.get(serverUrl + "/api/user/suggestedusers", {
+        withCredentials: true,
+      });
+      console.log(result);
+      setSuggestedUser(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleSuggestedUsers();
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -150,8 +167,8 @@ function Home() {
             <div className="text-[22px]">{`${userData.firstname} ${userData.lastname}`}</div>
           </div>
           <textarea
-            className={`w-full ${frontendImage ? "h-[200px]" : "h-[550px]"} outline-none border-none p-[10px] resize-none text-[19
-        px]`}
+            className={`w-full ${frontendImage ? "h-[200px]" : "h-[550px]"} outline-none border-none p-[10px] resize-none 
+            text-[19px]`}
             placeholder="What do you want to talk about...?"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -216,7 +233,36 @@ function Home() {
           />
         ))}
       </div>
-      <div className="w-full lg:w-[25%] min-h-[200px] bg-white shadow-lg"></div>
+      <div className="w-full lg:w-[25%] min-h-[200px] bg-white shadow-lg hidden lg:flex flex-col p-[20px] ">
+        <h1 className="text-[20px] text-gray-600 ">Suggested Users</h1>
+        {suggestedUser.length > 0 && (
+          <div className="flex flex-col gap-[10px] ">
+            {suggestedUser.map((su) => (
+              <div className="flex items-center gap-[10px] mt-[10px] cursor-pointer hover:bg-gray-200 rounded-lg p-[5px] " 
+              onClick={()=>handleGetProfile(su.username)}>
+                <div className="w-[30px] h-[30px] rounded-full overflow-hidden">
+                  <img
+                    src={su.profileImage || db}
+                    alt=""
+                    className="w-full h-full"
+                  />
+                </div>
+                <div>
+                  <div className="text-[18px] font-semibold text-gray-700">
+                    {`${su.firstname} ${su.lastname}`}
+                  </div>
+
+                  <div className="text-[12px] font-semibold text-gray-700">
+                    {`${su.headline}`}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {suggestedUser.length == 0 && <div>No Suggested Users</div>}
+      </div>
     </div>
   );
 }
