@@ -6,20 +6,19 @@ import { BiLike } from "react-icons/bi";
 import { FaRegCommentDots } from "react-icons/fa6";
 import axios from "axios";
 import { authDataContext } from "../context/AuthContext";
-import { userDataContext } from "../context/UserContext";
+import { socket, userDataContext } from "../context/UserContext";
 import { BiSolidLike } from "react-icons/bi";
 import { LuSendHorizontal } from "react-icons/lu";
-import { io } from "socket.io-client"
 import ConnectionButton from "./ConnectionButton";
 
-let socket = io("http://localhost:8000")
+
 function Post({ id, author, like, comment, description, image, createdAt }) {
   let [more, setMore] = useState(false);
   let { serverUrl } = useContext(authDataContext);
   let { userData, setUserData, getPost, handleGetProfile } = useContext(userDataContext);
-  let [likes, setLikes] = useState(like || []);
+  let [likes, setLikes] = useState([]);
   let [commentContent, setCommentContent] = useState("");
-  let[comments, setComments] = useState(comment || []);
+  let[comments, setComments] = useState([]);
   let [showComment, setShowComment] = useState(false) 
   
   const handleLike = async () => {
@@ -71,6 +70,11 @@ function Post({ id, author, like, comment, description, image, createdAt }) {
     }
   },[id])
 
+
+  useEffect(()=>{
+    setLikes(like)
+    setComments(comment)
+  }, [like, comment])
 
   return (
     <div className="w-full min-h-[200px] flex flex-col gap-[10px] text-justify bg-white rounded-lg shadow-lg p-[20px]">

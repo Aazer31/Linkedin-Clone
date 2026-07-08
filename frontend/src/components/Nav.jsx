@@ -74,8 +74,8 @@ function Nav() {
         )}
         {searchData.length > 0 && (
           <div
-            className="absolute top-[90px] min-h-[100px] left-[0px] lg:left-[20px] shadow-lg 
-        w-[100%] lg:w-[700px] bg-white flex flex-col gap-[20px] p-[20px]"
+            className="absolute top-[90px] h-[500px] left-[0px] lg:left-[20px] shadow-lg 
+        w-[100%] lg:w-[700px] bg-white flex flex-col gap-[20px] p-[20px] overflow-auto"
           >
             {searchData.map((sea) => (
               <div
@@ -121,11 +121,11 @@ function Nav() {
         </form>
       </div>
 
-      <div className="flex justify-center items-center gap-[20px] relative">
+      <div className="flex justify-center items-center gap-[20px]">
         {showPopup && (
           <div
             className="w-[300px] min-h-[300px] bg-white shadow-lg absolute top-[75px] rounded-lg
-        flex flex-col items-center p-[20px] gap-[20px]"
+        flex flex-col items-center p-[20px] gap-[20px] right-[20px] lg:right-[100px] "
           >
             <div className="w-[70px] h-[70px] rounded-full overflow-hidden">
               <img
@@ -163,7 +163,12 @@ function Nav() {
           </div>
         )}
 
-        <div className="lg:flex flex-col justify-center items-center text-gray-600 cursor-pointer hidden">
+        <div
+          className="lg:flex flex-col justify-center items-center text-gray-600 cursor-pointer hidden"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <TiHome className="w-[23px] h-[23px] text-gray-600" />
           <div>Home</div>
         </div>
@@ -176,7 +181,10 @@ function Nav() {
           <div>My Networks</div>
         </div>
 
-        <div className="flex flex-col justify-center items-center text-gray-600 cursor-pointer">
+        <div
+          className="flex flex-col justify-center items-center text-gray-600 cursor-pointer"
+          onClick={() => navigate("/notification")}
+        >
           <IoNotificationsSharp className="w-[23px] h-[23px] text-gray-600" />
           <div className="hidden md:block">Notifications</div>
         </div>

@@ -15,8 +15,15 @@ import Post from "../components/Post";
 import { useEffect } from "react";
 
 function Home() {
-  let { userData, setUserData, edit, setEdit, postData, setPostData, handleGetProfile } =
-    useContext(userDataContext);
+  let {
+    userData,
+    setUserData,
+    edit,
+    setEdit,
+    postData,
+    setPostData,
+    handleGetProfile,
+  } = useContext(userDataContext);
   let { serverUrl } = useContext(authDataContext);
   let [frontendImage, setFrontendImage] = useState("");
   let [backendImage, setBackendImage] = useState("");
@@ -143,7 +150,7 @@ function Home() {
 
       {uploadPost && (
         <div
-          className="w-[90%] max-w-[500px] h-[600px] bg-white shadow-lg rounded-lg fixed z-[200]
+          className="w-[90%] max-w-[500px] h-[600px] bg-white shadow-lg top-[100px] rounded-lg fixed z-[200]
        p-[20px] flex items-start justify-start flex-col gap-[20px] "
         >
           <div className="absolute top-[20px] right-[20px] cursor-pointer">
@@ -222,7 +229,7 @@ function Home() {
         </div>
         {postData.map((post, index) => (
           <Post
-            key={index}
+            key={post._id}
             id={post._id}
             description={post.description}
             author={post.author}
@@ -238,13 +245,17 @@ function Home() {
         {suggestedUser.length > 0 && (
           <div className="flex flex-col gap-[10px] ">
             {suggestedUser.map((su) => (
-              <div className="flex items-center gap-[10px] mt-[10px] cursor-pointer hover:bg-gray-200 rounded-lg p-[5px] " 
-              onClick={()=>handleGetProfile(su.username)}>
+              <div
+                key={su._id}
+                className="flex items-center gap-[10px] mt-[10px] cursor-pointer hover:bg-gray-200 rounded-lg p-[5px] "
+                onClick={() => handleGetProfile(su.username)}
+              >
                 <div className="w-[30px] h-[30px] rounded-full overflow-hidden">
                   <img
                     src={su.profileImage || db}
                     alt=""
-                    className="w-full h-full"
+                    className="w-full h-full
+                    object-cover"
                   />
                 </div>
                 <div>

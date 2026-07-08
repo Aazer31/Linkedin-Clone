@@ -2,7 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { authDataContext } from "./AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {io} from "socket.io-client"
 
+export const socket = io("http://localhost:8000")
 export const userDataContext = createContext();
 function UserContext({ children }) {
   let [userData, setUserData] = useState(null);
